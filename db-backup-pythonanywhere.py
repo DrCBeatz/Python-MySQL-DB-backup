@@ -2,9 +2,10 @@ import os
 import datetime
 from zipfile import ZipFile
 
+# Original Author - Anurag Rana - https://github.com/anuragrana
 #
-# Author - Anurag Rana
-# anuragrana31189 at gmail dot com
+# Modified by DrCBeatz - https://github.com/drCBeatz/
+#
 # place in home directory. schedule with task tab on pythonanywhere server.
 # https://www.pythoncircle.com/post/360/how-to-backup-database-periodically-on-pythonanywhere-server/
 #
@@ -14,15 +15,18 @@ DAYS_TO_KEEP_BACKUP = 3
 FILE_PREFIX = "my_db_backup_"
 FILE_SUFFIX_DATE_FORMAT = "%Y%m%d%H%M%S"
 USERNAME = "username"
+SITENAME = "sitename"
+# added above variable SITENAME since your database host address starts with your full pythonanywhere username ('sitename')
+# which may be longer than your MySQL username, which is 16 characters max in length.
 DBNAME = USERNAME+"$dbname"
-
 
 # get today's date and time
 timestamp = datetime.datetime.now().strftime(FILE_SUFFIX_DATE_FORMAT)
 backup_filename = BACKUP_DIR_NAME+"/"+FILE_PREFIX+timestamp+".sql"
 
-os.system("mysqldump -u "+USERNAME+" -h "+USERNAME+".mysql.pythonanywhere-services.com '"+DBNAME+"'  > "+backup_filename)
-
+os.system("mysqldump --column-statistics=0 -u "+USERNAME+" -h "+SITENAME+".mysql.pythonanywhere-services.com --set-gtid-purged=OFF --no-tablespaces '"+DBNAME+"'  > "+backup_filename)
+# add --column-statistics=0 for msqldump 8 (disables column statistics)
+# also added --set-gtid-purged=OFF (for innoDB) and --no-tablespaces
 
 # creating zip file
 zip_filename = BACKUP_DIR_NAME+"/"+FILE_PREFIX+timestamp+".zip"
