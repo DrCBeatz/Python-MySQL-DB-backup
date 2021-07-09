@@ -1,9 +1,8 @@
-# Python-Scripts
-A Collection of Python scripts developed by me to Automate the mundane tasks.  
-Appropriate comments are placed in scripts to help understand them.  
+# Python-MySQL-DB-backup script for PythonAnywhere
+A modified script to do automated backups of a MySQL database (changes made to support new mysqldump version, InnoDB compatibility, and for longer PythonAnywhere project names).
 
 --------------------------
 
-To understand how to use these scripts, visit : https://www.pythoncircle.com
+Original source : https://www.pythoncircle.com
 
 
